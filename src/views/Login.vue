@@ -10,10 +10,7 @@
 
       <h1 class="text-white text-xl md:text-2xl font-bold leading-tight my-6">Log in to your account</h1>
 
-      <div v-if="isError" class="bg-red-100 border-l-4 border-red-500 text-red-500 p-4 text-xs" role="alert">
-        <p class="font-bold">Login Error</p>
-        <p>The password or email is invalid.</p>
-      </div>
+      <ErrorMessage />
 
       <form class="mt-6" @submit.prevent="doLogin">
         <div>
@@ -73,15 +70,16 @@
 </template>
 
 <script>
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
+import { mapActions } from 'vuex';
 
+import ErrorMessage from '../components/ErrorMessage.vue';
 import GoogleIcon from '../components/icons/Google.vue';
 
 export default {
   name: 'Register',
   components: {
-    GoogleIcon
+    GoogleIcon,
+    ErrorMessage
   },
   data() {
     return {
@@ -92,26 +90,18 @@ export default {
       isError: false
     };
   },
-  beforeRouteEnter (to, from, next) {
-    next(vm => {
-      firebase.auth().onAuthStateChanged(user => {
-        if (user) {
-          vm.$router.push('/watch-list');
-        }
-      });
-    });
-  },
   methods: {
+    ...mapActions({
+      fetchLogin: 'user/fetchLogin',
+    }),
     async doLogin() {
       this.isError = false;
-      const { email, password } = this.form;
 
-      try {
-        if (email && password) {
-          await firebase.auth().signInWithEmailAndPassword(email, password);
-          this.$router.push('/watch-list');
-        }
-      } catch (error) {
+      const response = await this.fetchLogin(this.form);
+
+      if (response) {
+        this.$router.push('/watch-list');
+      } else {
         this.isError = true;
       }
     }

@@ -1,0 +1,7 @@
+.tabs {
+    @apply text-white py-4 px-6 inline-block hover:text-primary focus:outline-none font-medium;
+}
+
+.tabs-active {
+    @apply text-white py-4 px-6 inline-block hover:text-primary focus:outline-none border-b-2 font-medium border-primary;
+}

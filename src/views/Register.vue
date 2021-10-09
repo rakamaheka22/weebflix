@@ -10,6 +10,8 @@
 
       <h1 class="text-white text-xl md:text-2xl font-bold leading-tight mt-6">Registration your account</h1>
 
+      <ErrorMessage />
+
       <form class="mt-6" @submit.prevent="doRegister">
         <div>
           <label class="block text-white mb-2 text-xs md:text-sm">Name</label>
@@ -73,11 +75,15 @@
 </template>
 
 <script>
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
+import { mapActions } from 'vuex';
+
+import ErrorMessage from '../components/ErrorMessage.vue';
 
 export default {
   name: 'Register',
+  components: {
+    ErrorMessage
+  },
   data() {
     return {
       form: {
@@ -87,31 +93,20 @@ export default {
       }
     };
   },
-  beforeRouteEnter (to, from, next) {
-    next(vm => {
-      firebase.auth().onAuthStateChanged(user => {
-        if (user) {
-          vm.$router.push('/watch-list');
-        }
-      });
-    });
-  },
   methods: {
+    ...mapActions({
+      addAccountRegister: 'user/addAccountRegister',
+    }),
     async doRegister() {
-      try {
-        if (
-          !Object.values(this.form)
-            .every(x => x === null || x === '')
-        ) {
-          const { email, password, name } = this.form;
-          const data = await firebase.auth().createUserWithEmailAndPassword(email, password);
-  
-          await data.user.updateProfile({displayName: name});
+      if (
+        !Object.values(this.form)
+          .every(x => x === null || x === '')
+      ) {
+        const response = await this.addAccountRegister(this.form);
 
+        if (response) {
           this.$router.push('/login');
         }
-      } catch (error) {
-        console.error(error);
       }
     }
   }

@@ -9,10 +9,10 @@
       </div>
       <div class="mt-16 flex flex-col items-center">
         <h1 class="text-lg text-center font-bold text-white">
-          {{ user.displayName }} 
+          {{ user && user.displayName }} 
         </h1>
         <p class="text-sm text-gray-400 tracking-wide font-medium text-center mt-1 mb-4">
-          {{ user.email }}
+          {{ user && user.email }}
         </p>
         <p class="text-sm text-white text-center">
           0 watch list
@@ -42,29 +42,22 @@
 </template>
 
 <script>
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'WatchList',
-  data() {
-    return {
-      user: null,
-    };
-  },
-  mounted() {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        this.user = user;
-      } else {
-        this.$router.push('/login');
-      }
-    });
+  computed: {
+    ...mapGetters({
+      user: 'user/getUserInfo'
+    })
   },
   methods: {
+    ...mapActions({
+      signOutAccount: 'user/signOutAccount'
+    }),
     async doLogout() {
       try {
-        await firebase.auth().signOut();
+        await this.signOutAccount();
         this.$router.push('/login');
       } catch (error) {
         console.error(error);

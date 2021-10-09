@@ -2,6 +2,8 @@
   <div>
     <Header />
     <Hero />
+    <TopCategories />
+    <ListAnime />
     <Footer />
   </div>
 </template>
@@ -9,6 +11,8 @@
 <script>
 import Header from '../components/Header.vue';
 import Hero from '../components/Hero.vue';
+import TopCategories from '../components/TopCategories.vue';
+import ListAnime from '../components/ListAnime.vue';
 import Footer from '../components/Footer.vue';
 
 export default {
@@ -16,17 +20,9 @@ export default {
   components: {
     Header,
     Hero,
+    TopCategories,
+    ListAnime,
     Footer
-  },
-  methods: {
-    fetchData() {
-      this.axios.get('https://ghibliapi.herokuapp.com/films').then((response) => {
-        console.log(response.data); // JSON
-      });
-    }
-  },
-  mounted() {
-    this.fetchData();
   }
 }
 </script>
