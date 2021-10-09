@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 
 import ErrorMessage from '../components/ErrorMessage.vue';
 import GoogleIcon from '../components/icons/Google.vue';
@@ -89,6 +89,17 @@ export default {
       },
       isError: false
     };
+  },
+  computed: {
+    ...mapState('user', {
+      getUserInfoMap: 'user_info'
+    }),
+    ...mapGetters({
+      isAuthenticated: 'user/isAuthenticated'
+    }),
+    getUserInfo() {
+      return this.$store.state.user.user_info;
+    }
   },
   methods: {
     ...mapActions({
