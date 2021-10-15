@@ -25,7 +25,7 @@
             autofocus
             autocomplete
             required
-          >
+          />
         </div>
 
         <div class="mt-4">
@@ -40,7 +40,7 @@
             class="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-primary focus:bg-white focus:outline-none font-bold"
             autocomplete
             required
-          >
+          />
         </div>
 
         <button

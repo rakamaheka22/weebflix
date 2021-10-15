@@ -6,6 +6,8 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 import Vuex from 'vuex';
 
+axios.defaults.baseURL = process.env.VUE_APP_API_URL;
+
 Vue.use(VueAxios, axios);
 
 Vue.use(Vuex);

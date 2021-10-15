@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 import modules from './modules';
+import { SET_MESSAGE_ERROR } from './mutations';
 
 const store = new Vuex.Store({
     state: {
@@ -14,7 +15,7 @@ const store = new Vuex.Store({
         }
     },
     mutations: {
-        'SET_MESSAGE_ERROR': (state, message) => {
+        [SET_MESSAGE_ERROR]: (state, message) => {
             state.error_message = message;
         }
     },

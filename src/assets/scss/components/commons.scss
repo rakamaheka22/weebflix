@@ -9,6 +9,14 @@ body {
 
 .section {
     @apply max-w-6xl mx-auto px-5 sm:px-6;
+
+    &-grid {
+        @apply w-full grid grid-cols-1 md:grid-cols-4 gap-6;
+
+        &-3 {
+            @apply md:grid-cols-3;
+        }
+    }
 }
 
 .card {
@@ -28,5 +36,9 @@ body {
         @apply absolute top-0 right-0 px-2 py-1 rounded-lg bg-primary text-white font-bold;
         @apply m-3 group-hover:bg-white group-hover:text-primary z-10;
         @apply transition duration-500 ease-in-out;
+    }
+    &-bookmark {
+        @apply absolute top-0 left-0 w-10 h-10 rounded-full bg-darkgrey;
+        @apply flex items-center justify-center m-2 z-10 cursor-pointer;
     }
 }

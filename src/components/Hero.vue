@@ -9,7 +9,20 @@
         <p class="hero-subtitle">
           You can find various anime genres and save them to watch later.
         </p>
-        <div class="hero-search"></div>
+        <div class="hero-search">
+          <form @submit.prevent="doSearch">
+            <input
+              v-model="search"
+              type="text"
+              name="search"
+              id="search"
+              placeholder="Search Anime. Movie, or TV Series..."
+              class="w-full px-4 py-3 md:px-6 md:py-5 rounded-lg md:rounded-2xl bg-white border-none focus:outline-none font-bold"
+              autofocus
+              autocomplete
+            />
+          </form>
+        </div>
       </div>
     </div>
     <div v-if="upcomingList && upcomingList.length > 0" class="upcoming-container">
@@ -38,11 +51,11 @@
               </p>
             </div>
             <div class="flex-none flex flex-col items-end">
-              <div class="font-bold text-white bg-red-400 py-1 px-3 rounded-lg text-sm my-4">
+              <div class="font-bold text-white bg-primary py-1 px-3 rounded-lg text-sm my-4">
                 {{ upcoming.rank }}
               </div>
-              <div>
-                <feather type="bookmark" stroke="#38485C"></feather>
+              <div class="cursor-pointer">
+                <feather type="bookmark" stroke="#5f6f83"></feather>
               </div>
             </div>
           </div>
@@ -59,6 +72,7 @@ export default {
   name: 'HeroComponent',
   data() {
     return {
+      search: '',
       swiperOptions: {
         slidesPerView: 'auto',
         loop: true,
@@ -85,8 +99,23 @@ export default {
   },
   methods: {
     ...mapActions({
-      fetchTopList: 'topList/fetchTopList'
-    })
+      fetchTopList: 'topList/fetchTopList',
+      findAnimeByQuery: 'topList/findAnimeByQuery'
+    }),
+    doSearch() {
+      if (this.search) {
+        this.findAnimeByQuery(this.search);
+      } else {
+        this.fetchTopList({
+          page: 1,
+          type: 'airing'
+        });
+      }
+      this.$emit('searchResult', this.search);
+      this.search = '';
+      let element = document.getElementById('search-anime');
+      element.scrollIntoView({behavior: 'smooth', block: 'start'});
+    }
   }
 }
 </script>
@@ -112,7 +141,7 @@ export default {
     }
 
     .hero-search {
-      @apply w-full rounded-lg md:rounded-2xl bg-white px-4 py-4 md:px-6 md:py-6 md:max-w-2xl mx-auto;
+      @apply w-full rounded-lg md:rounded-2xl bg-white md:max-w-2xl mx-auto;
     }
   }
 

@@ -1,6 +1,11 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 
+import {
+    SET_IS_AUTH,
+    SET_USER_INFO
+} from '../mutations';
+
 const state = () => ({
     user_info: null,
     is_auth: false
@@ -16,10 +21,10 @@ const getters = {
 };
 
 const mutations = {
-    'SET_IS_AUTH': (state, payload) => {
+    [SET_IS_AUTH]: (state, payload) => {
         state.is_auth = payload;
     },
-    'SET_USER_INFO': (state, payload) => {
+    [SET_USER_INFO]: (state, payload) => {
        state.user_info = payload; 
     }
 };
