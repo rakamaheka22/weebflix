@@ -1,15 +1,21 @@
-import firebase from '../../firebase';
-import { enableIndexedDbPersistence } from 'firebase/firestore'; 
-import 'firebase/compat/firestore';
+import {
+    enableIndexedDbPersistence,
+    doc,
+    collection,
+    getDocs,
+    addDoc,
+    deleteDoc
+} from 'firebase/firestore';
+import { db } from '../../firebase';
 
 import api from '../endpoints';
 
-const db = firebase.firestore();
-
-db.settings({ experimentalForceLongPolling: true });
-
 enableIndexedDbPersistence(db).catch((err) => {
-    console.log('firestore : ', err);
+    if (err.code === 'failed-precondition') {
+        console.log('persistent failed');
+    } else if (err.code === 'unimplemented') {
+        console.log('persistance is not available');
+    }
 });
 
 const state = () => ({
@@ -32,34 +38,33 @@ const mutations = {
 };
 
 const actions = {
-    fetchFirestore: ({ commit }) => {
-        db.collection(api.WATCH_LIST).onSnapshot((list) => {
-            const watchList = [];
+    fetchFirestore: async ({ commit }) => {
+        const watchList = [];
+        const list = await getDocs(collection(db, api.WATCH_LIST));
 
-            if (list.docs.length > 0) {
-                list.forEach((doc) => {
-                    watchList.push({
-                        id: doc.id,
-                        mal_id: doc.data().mal_id,
-                        title: doc.data().title,
-                        type: doc.data().type,
-                        url: doc.data().url,
-                        start_date: doc.data().start_date,
-                        end_date: doc.data().end_date,
-                        score: doc.data().score,
-                        rank: doc.data().rank,
-                        episodes: doc.data().episodes,
-                        members: doc.data().members,
-                        image_url: doc.data().image_url
-                    })
-                });
-            }
-            commit('SET_WATCH_LIST', watchList);
-        })
+        if (list.docs.length > 0) {
+            list.forEach((doc) => {
+                watchList.push({
+                    id: doc.id,
+                    mal_id: doc.data().mal_id,
+                    title: doc.data().title,
+                    type: doc.data().type,
+                    url: doc.data().url,
+                    start_date: doc.data().start_date,
+                    end_date: doc.data().end_date,
+                    score: doc.data().score,
+                    rank: doc.data().rank,
+                    episodes: doc.data().episodes,
+                    members: doc.data().members,
+                    image_url: doc.data().image_url
+                })
+            });
+        }
+        commit('SET_WATCH_LIST', watchList);
     },
     addFirestore: async ({ commit }, payload) => {
         try {
-            const response = await db.collection(api.WATCH_LIST).add(payload);
+            const response = await addDoc(collection(db, api.WATCH_LIST), payload);
             return response;
         } catch (error) {
             console.log(error);
@@ -67,10 +72,12 @@ const actions = {
             return false;
         }
     },
-    deleteFirestore: async ({ commit }, id) => {
+    deleteFirestore: async ({ commit, dispatch }, id) => {
         try {
-            const response = await db.collection(api.WATCH_LIST).doc(id).delete();
-            return response;
+            await deleteDoc(doc(db, api.WATCH_LIST, id));
+            await dispatch('fetchFirestore');
+
+            return true;
         } catch (error) {
             commit('SET_MESSAGE_ERROR', error.message, { root: true });
             return false;
