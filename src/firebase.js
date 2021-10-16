@@ -1,4 +1,6 @@
-import firebase from 'firebase/compat/app';
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 
 const {
   VUE_APP_API_KEY,
@@ -18,4 +20,6 @@ const firebaseConfig = {
   appId: VUE_APP_APP_ID
 };
 
-export default firebase.initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
+export const auth = getAuth(app);

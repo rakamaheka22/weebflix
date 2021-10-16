@@ -83,7 +83,7 @@ export default {
       deleteFirestore: 'watchList/deleteFirestore'
     }),
     convertDate(date) {
-      return moment(date).format('DD MMMM YYYY');
+      return moment(new Date(date)).format('DD MMMM YYYY');
     },
     async bookmarkAnime(item) {
       if (this.isBookmarked(item)) {

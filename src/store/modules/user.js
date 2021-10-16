@@ -1,5 +1,11 @@
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
+import { auth } from '../../firebase';
+
+import {
+    onAuthStateChanged,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    signOut
+} from 'firebase/auth';
 
 import {
     SET_IS_AUTH,
@@ -32,7 +38,7 @@ const mutations = {
 const actions = {
     isUserLoggon: ({ commit }) => {
         return new Promise((resolve, reject) => {
-            firebase.auth().onAuthStateChanged(user => {
+            onAuthStateChanged(auth, user => {
                 if (user) {
                     commit('SET_USER_INFO', user);
                     commit('SET_IS_AUTH', !!user);
@@ -51,9 +57,7 @@ const actions = {
         const { email, password } = payload;
         try {
             if (email && password) {
-                const loggedIn = await firebase
-                    .auth()
-                    .signInWithEmailAndPassword(email, password);
+                const loggedIn = await signInWithEmailAndPassword(auth, email, password);
                 return loggedIn;
             }
         } catch (error) {
@@ -65,9 +69,7 @@ const actions = {
         const { email, password, name } = payload;
         try {
             if (email && password) {
-                const data = await firebase
-                    .auth()
-                    .createUserWithEmailAndPassword(email, password);
+                const data = await createUserWithEmailAndPassword(auth, email, password);
 
                 await data.user.updateProfile({displayName: name});
                 return true;
@@ -79,7 +81,7 @@ const actions = {
     },
     signOutAccount: async ({ commit }) => {
         try {
-            await firebase.auth().signOut();
+            await signOut(auth);
             return true;
         } catch (error) {
             commit('SET_MESSAGE_ERROR', error.message, { root: true });
