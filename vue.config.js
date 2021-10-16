@@ -12,5 +12,11 @@ module.exports = {
         plugins: [
             new Dotenv()
         ]
+    },
+    pwa: {
+        workboxPluginMode: 'InjectManifest',
+        workboxOptions: {
+          swSrc: 'src/service-worker.js',
+        }
     }
 }
