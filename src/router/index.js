@@ -51,17 +51,25 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
 
-  const isLoggedIn = await store.dispatch('user/isUserLoggon');
-
   if (to.matched.some(record => record.meta.auth)) {
+    
+    const isLoggedIn = await store.dispatch('user/isUserLoggon');
+
     if (!isLoggedIn) {
       next('/login');
     } else {
       next();
     }
   } else if (to.matched.some(record => !record.meta.auth)) {
-    if (isLoggedIn && Object.keys(to.meta).length > 0) {
-      next('/watch-list');
+    if (Object.keys(to.meta).length > 0) {
+      
+      const isLoggedIn = await store.dispatch('user/isUserLoggon');
+
+      if (isLoggedIn) {
+        next('/watch-list');
+      } else {
+        next();
+      }
     } else {
       next();
     }

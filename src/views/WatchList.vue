@@ -40,7 +40,7 @@
       <h1 class="text-white font-bold md:text-xl px-5">
         My Watch List
       </h1>
-      <div v-if="getWatchList && getWatchList.length > 0">
+      <div v-if="getWatchList && getWatchList.length > 0" class="mb-16">
         <ListAnime type="watch-list" :list-anime="getWatchList" />
       </div>
       <div v-else>
