@@ -1,9 +1,16 @@
 import firebase from '../../firebase';
+import { enableIndexedDbPersistence } from 'firebase/firestore'; 
 import 'firebase/compat/firestore';
 
 import api from '../endpoints';
 
 const db = firebase.firestore();
+
+db.settings({ experimentalForceLongPolling: true });
+
+enableIndexedDbPersistence(db).catch((err) => {
+    console.log('firestore : ', err);
+});
 
 const state = () => ({
     watch_list: []

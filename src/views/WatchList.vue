@@ -12,10 +12,10 @@
               Back
             </router-link>
           </nav>
-          <img class="absolute h-full w-full object-cover" src="/images/bg-pattern.jpg" alt="Background Pattern">
+          <img class="absolute h-full w-full object-cover" src="/img/bg-pattern.jpg" alt="Background Pattern">
         </div>
         <div class="relative shadow mx-auto h-24 w-24 -my-12 border-white rounded-full overflow-hidden border-4">
-          <img class="object-cover w-full h-full" src="/images/avatar.png" alt="Profile Picture">
+          <img class="object-cover w-full h-full" src="/img/avatar.png" alt="Profile Picture">
         </div>
         <div class="mt-16 flex flex-col items-center">
           <h1 class="text-lg text-center font-bold text-white">
