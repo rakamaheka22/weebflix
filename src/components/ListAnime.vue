@@ -1,6 +1,6 @@
 <template>
   <section class="section mt-12">
-    <div v-if="search" class="mt-48 sm:mt-[400px] md:mt-4">     
+    <div v-if="search" class="mt-[20px] sm:mt-[400px] md:mt-4">     
       <h2 class="title-section">
         Search Result : {{ search }}
       </h2>
