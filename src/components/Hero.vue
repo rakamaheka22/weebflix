@@ -126,7 +126,7 @@ export default {
 
   .bg-overlay {
     @apply bg-hero object-cover object-center bg-center z-0;
-    @apply relative w-full flex flex-col h-[90vh] sm:h-[500px] md:h-[75vh];
+    @apply relative w-full flex flex-col h-[560px] sm:h-[500px] md:h-[75vh];
 
     .overlay {
       @apply w-full h-full bg-black opacity-80 absolute;
