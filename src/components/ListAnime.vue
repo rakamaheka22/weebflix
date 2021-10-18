@@ -54,6 +54,10 @@
 import { mapActions, mapGetters } from 'vuex';
 import moment from 'moment';
 
+import {
+  NO_CONNECTION
+} from '../constant';
+
 export default {
   name: 'ListAnime',
   props: {
@@ -79,6 +83,7 @@ export default {
   },
   methods: {
     ...mapActions({
+      isUserLoggon: 'user/isUserLoggon',
       addFirestore: 'watchList/addFirestore',
       deleteFirestore: 'watchList/deleteFirestore'
     }),
@@ -86,28 +91,37 @@ export default {
       return moment(new Date(date)).format('DD MMMM YYYY');
     },
     async bookmarkAnime(item) {
-      if (this.isBookmarked(item)) {
-        const getSelectedAnime = this.getWatchList
-        .filter((el) => el.mal_id === item.mal_id);
+      try {
+        if (!navigator.onLine) throw new Error(NO_CONNECTION);
 
-        this.deleteFirestore(getSelectedAnime[0].id);
-      } else {
-        const payload = {
-          mal_id: item.mal_id,
-          title: item.title,
-          type: item.type,
-          url: item.url,
-          start_date: item.start_date || '',
-          end_date: item.end_date || '',
-          score: item.score || 0,
-          rank: item.rank || '',
-          episodes: item.episodes || 0,
-          members: item.members,
-          image_url: item.image_url
+        const isLogggedIn = await this.isUserLoggon();
+        if (!isLogggedIn) this.$router.push('/login');
+
+        if (this.isBookmarked(item)) {
+          const getSelectedAnime = this.getWatchList
+          .filter((el) => el.mal_id === item.mal_id);
+
+          this.deleteFirestore(getSelectedAnime[0].id);
+        } else {
+          const payload = {
+            mal_id: item.mal_id,
+            title: item.title,
+            type: item.type,
+            url: item.url,
+            start_date: item.start_date || '',
+            end_date: item.end_date || '',
+            score: item.score || 0,
+            rank: item.rank || '',
+            episodes: item.episodes || 0,
+            members: item.members,
+            image_url: item.image_url
+          }
+          const response = await this.addFirestore(payload);
+
+          if (response) this.$router.push('/watch-list');
         }
-        const response = await this.addFirestore(payload);
-
-        if (response) this.$router.push('/watch-list');
+      } catch (error) {
+        console.error(error);
       }
     },
     isBookmarked(item) {

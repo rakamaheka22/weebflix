@@ -111,10 +111,15 @@ export default {
           type: 'airing'
         });
       }
+
       this.$emit('searchResult', this.search);
       this.search = '';
+
       let element = document.getElementById('search-anime');
-      element.scrollIntoView({behavior: 'smooth', block: 'start'});
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
     }
   }
 }

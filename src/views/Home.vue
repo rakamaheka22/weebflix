@@ -36,11 +36,17 @@ export default {
       topList: 'topList/getTopList',
     }),
   },
-  mounted() {
-    this.fetchFirestore();
+  async mounted() {
+    if (navigator.onLine) {
+      const isLogggedIn = await this.isUserLoggon();
+      if (isLogggedIn) {
+        this.fetchFirestore();
+      }
+    }
   },
   methods: {
     ...mapActions({
+      isUserLoggon: 'user/isUserLoggon',
       fetchFirestore: 'watchList/fetchFirestore'
     })
   }
