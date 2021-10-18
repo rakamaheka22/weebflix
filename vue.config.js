@@ -14,6 +14,8 @@ module.exports = {
         ]
     },
     pwa: {
+        themeColor: '#DB202C',
+        msTileColor: '#DB202C',
         workboxPluginMode: 'InjectManifest',
         workboxOptions: {
           swSrc: 'src/service-worker.js',
