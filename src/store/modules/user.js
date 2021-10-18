@@ -1,6 +1,7 @@
 import { auth } from '../../firebase';
 
 import {
+    updateProfile,
     onAuthStateChanged,
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
@@ -71,7 +72,7 @@ const actions = {
             if (email && password) {
                 const data = await createUserWithEmailAndPassword(auth, email, password);
 
-                await data.user.updateProfile({displayName: name});
+                await updateProfile(data.user, {displayName: name});
                 return true;
             }
         } catch (error) {
