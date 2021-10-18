@@ -12,7 +12,10 @@
           <nav class="flex flex-grow">
             <ul class="flex flex-grow justify-end flex-wrap items-center">
               <li>
-                <router-link to="/watch-list" class="font-medium text-white hover:text-gray-100 px-2 py-3 flex items-center transition duration-150 ease-in-out gap-2">
+                <router-link
+                  to="/watch-list"
+                  class="font-medium text-white hover:text-gray-100 px-2 py-3 flex items-center transition duration-150 ease-in-out gap-2"
+                >
                   <feather type="eye" stroke="white"></feather>
                   <div class="hidden md:block">Watch List</div>
                 </router-link>

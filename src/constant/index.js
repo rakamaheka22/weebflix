@@ -1,0 +1,1 @@
+export const NO_CONNECTION = 'No Internet Connection';

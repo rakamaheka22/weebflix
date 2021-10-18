@@ -18,6 +18,12 @@ enableIndexedDbPersistence(db).catch((err) => {
     }
 });
 
+const getUser = (getters) => {
+    const userInfo = getters['user/getUserInfo'];
+    const collectionName = userInfo?.displayName.split(' ')[0];
+    return collectionName;
+}
+
 const state = () => ({
     watch_list: []
 });
@@ -38,9 +44,12 @@ const mutations = {
 };
 
 const actions = {
-    fetchFirestore: async ({ commit }) => {
+    fetchFirestore: async ({ commit, rootGetters }) => {
         const watchList = [];
-        const list = await getDocs(collection(db, api.WATCH_LIST));
+
+        const list = await getDocs(
+            collection(db, getUser(rootGetters) || api.WATCH_LIST)
+        );
 
         if (list.docs.length > 0) {
             list.forEach((doc) => {
@@ -62,9 +71,14 @@ const actions = {
         }
         commit('SET_WATCH_LIST', watchList);
     },
-    addFirestore: async ({ commit }, payload) => {
+    addFirestore: async ({ commit, rootGetters }, payload) => {
         try {
-            const response = await addDoc(collection(db, api.WATCH_LIST), payload);
+            const response = await addDoc(
+                collection(
+                    db,
+                    getUser(rootGetters) || api.WATCH_LIST),
+                    payload
+                );
             return response;
         } catch (error) {
             console.log(error);
@@ -72,9 +86,11 @@ const actions = {
             return false;
         }
     },
-    deleteFirestore: async ({ commit, dispatch }, id) => {
+    deleteFirestore: async ({ commit, dispatch, rootGetters }, id) => {
         try {
-            await deleteDoc(doc(db, api.WATCH_LIST, id));
+            await deleteDoc(
+                doc(db, getUser(rootGetters) || api.WATCH_LIST, id)
+            );
             await dispatch('fetchFirestore');
 
             return true;
