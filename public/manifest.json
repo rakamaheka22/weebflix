@@ -1,6 +1,7 @@
 {
   "name": "Weebflix",
   "short_name": "Weebflix",
+  "description": "You can find various anime genres and save them to watch later on Weebflix",
   "theme_color": "#DB202C",
   "background_color": "#000000",
   "display": "standalone",
