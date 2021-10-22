@@ -40,9 +40,11 @@
           </div>
           <div class="flex">
             <div class="flex-auto">
-              <h3 class="font-bold text-white text-sm md:text-base my-4 max-w-[200px] md:max-w-[250px] line-clamp-2">
-                {{ upcoming.title }}
-              </h3>
+              <router-link :to="`/anime/${upcoming.mal_id}`">
+                <h3 class="font-bold hover:underline text-white text-sm md:text-base my-4 max-w-[200px] md:max-w-[250px] line-clamp-2">
+                  {{ upcoming.title }}
+                </h3>
+              </router-link>
               <span class="bg-grey py-1 px-2 text-white text-xs rounded-xl">
                 {{ upcoming.type }}
               </span>
@@ -127,7 +129,7 @@ export default {
 
 <style lang="scss" scoped>
 .hero {
-  @apply relative w-screen h-screen;
+  @apply relative w-screen h-full;
 
   .bg-overlay {
     @apply bg-hero object-cover object-center bg-center z-0;

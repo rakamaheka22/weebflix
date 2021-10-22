@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
+import DetailAnime from '../views/DetailAnime.vue';
 
 import store from '../store';
 
@@ -11,6 +12,11 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/anime/:id',
+    name: 'DetailAnime',
+    component: DetailAnime
   },
   {
     path: '/register',
