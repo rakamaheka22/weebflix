@@ -1,5 +1,5 @@
 <template>
-  <section class="section mt-[20px] sm:mt-[400px] md:mt-4">
+  <section class="section mt-[70px] sm:mt-[400px] md:mt-[80px]">
     <h2 class="title-section">
       Top 20 Rated Anime
     </h2>

@@ -53,7 +53,11 @@
 
       <hr class="my-5 border-gray-500 w-full">
 
-      <button type="button" class="w-full block bg-white hover:bg-gray-100 focus:bg-gray-100 text-gray-900 font-semibold rounded-lg px-4 py-3 border border-gray-300">
+      <button
+        type="button"
+        class="w-full block bg-white hover:bg-gray-100 focus:bg-gray-100 text-gray-900 font-semibold rounded-lg px-4 py-3 border border-gray-300"
+        @click="doLogin('google')"
+      >
         <div class="flex items-center justify-center">
           <GoogleIcon />
           <span class="ml-4">Log in with Google</span>
@@ -104,11 +108,18 @@ export default {
   methods: {
     ...mapActions({
       fetchLogin: 'user/fetchLogin',
+      fetchLoginWithGoogle: 'user/fetchLoginWithGoogle'
     }),
-    async doLogin() {
+    async doLogin(provider = '') {
       this.isError = false;
 
-      const response = await this.fetchLogin(this.form);
+      let response = null;
+
+      if (provider === 'google') {
+        response = await this.fetchLoginWithGoogle();
+      } else {
+        response = await this.fetchLogin(this.form);
+      }
 
       if (response) {
         this.$router.push('/watch-list');

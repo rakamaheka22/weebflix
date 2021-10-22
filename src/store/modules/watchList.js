@@ -18,10 +18,9 @@ enableIndexedDbPersistence(db).catch((err) => {
     }
 });
 
-const getUser = (getters) => {
+const getColectionName = (getters) => {
     const userInfo = getters['user/getUserInfo'];
-    const collectionName = userInfo?.displayName.split(' ')[0];
-    return collectionName;
+    return  userInfo?.uid || api.WATCH_LIST;
 }
 
 const state = () => ({
@@ -48,7 +47,7 @@ const actions = {
         const watchList = [];
 
         const list = await getDocs(
-            collection(db, getUser(rootGetters) || api.WATCH_LIST)
+            collection(db, getColectionName(rootGetters))
         );
 
         if (list.docs.length > 0) {
@@ -76,7 +75,7 @@ const actions = {
             const response = await addDoc(
                 collection(
                     db,
-                    getUser(rootGetters) || api.WATCH_LIST),
+                    getColectionName(rootGetters)),
                     payload
                 );
             return response;
@@ -89,7 +88,7 @@ const actions = {
     deleteFirestore: async ({ commit, dispatch, rootGetters }, id) => {
         try {
             await deleteDoc(
-                doc(db, getUser(rootGetters) || api.WATCH_LIST, id)
+                doc(db, getColectionName(rootGetters), id)
             );
             await dispatch('fetchFirestore');
 

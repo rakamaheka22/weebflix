@@ -5,7 +5,9 @@ import {
     onAuthStateChanged,
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
-    signOut
+    signOut,
+    signInWithPopup,
+    GoogleAuthProvider
 } from 'firebase/auth';
 
 import {
@@ -60,6 +62,19 @@ const actions = {
             if (email && password) {
                 const loggedIn = await signInWithEmailAndPassword(auth, email, password);
                 return loggedIn;
+            }
+        } catch (error) {
+            commit('SET_MESSAGE_ERROR', error.message, { root: true });
+            return false;
+        }
+    },
+    fetchLoginWithGoogle: async ({ commit }) => {
+        try {
+            const provider = new GoogleAuthProvider();
+            const result = await signInWithPopup(auth, provider);
+            if (result) {
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                return credential;
             }
         } catch (error) {
             commit('SET_MESSAGE_ERROR', error.message, { root: true });

@@ -41,9 +41,11 @@
           <p class="text-sm mb-6">
             Eps. {{ item.episodes }} • {{ item.type }}
           </p>
-          <button class="card-button">
-            View Detail
-          </button>
+          <router-link :to="`/anime/${item.mal_id}`">
+            <button class="card-button">
+              View Detail
+            </button>
+          </router-link>
         </div>
       </div>
     </div>
