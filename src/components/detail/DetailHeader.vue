@@ -1,15 +1,7 @@
 <template>
   <header v-if="anime" class="max-w-full md:max-w-6xl mx-auto">
     <div class="absolute top-0 left-0 right-0 w-full bg-gradient-to-t from-primary to-secondary h-72"></div>
-    <nav class="absolute top-10 z-20 text-white font-bold left-5 md:left-auto">
-      <router-link class="flex items-center gap-4" to="/">
-        <feather
-          type="arrow-left"
-          stroke="#FFFFFF"
-        ></feather>
-        Back
-      </router-link>
-    </nav>
+    <BackButton class-property="absolute top-10 z-20 text-white font-bold left-5 md:left-auto" />
     <div class="relative w-full flex flex-col md:flex-row gap-[48px] px-5 md:px-0 mt-28 md:mt-32">
       <div class="h-[400px] w-full md:h-[360px] md:w-[300px]">
         <img :src="anime.image_url" :alt="anime.title" class="w-full h-full object-cover object-center" />
@@ -101,12 +93,17 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 
+import BackButton from '../commons/BackButton.vue';
+
 import {
   NO_CONNECTION
-} from '../constant';
+} from '../../constant';
 
 export default {
   name: 'DetailHeader',
+  components: {
+    BackButton
+  },
   props: {
     anime: {
       type: Object,

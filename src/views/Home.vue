@@ -11,11 +11,11 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import Header from '../components/Header.vue';
-import Hero from '../components/Hero.vue';
-import TopCategories from '../components/TopCategories.vue';
-import ListAnime from '../components/ListAnime.vue';
-import Footer from '../components/Footer.vue';
+import Header from '../components/home/Header.vue';
+import Hero from '../components/home/Hero.vue';
+import TopCategories from '../components/home/TopCategories.vue';
+import ListAnime from '../components/commons/ListAnime.vue';
+import Footer from '../components/home/Footer.vue';
 
 export default {
   name: 'Home',

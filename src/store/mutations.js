@@ -13,3 +13,4 @@ export const SET_USER_INFO = 'SET_USER_INFO';
 export const SET_ANIME_INFO = 'SET_ANIME_INFO';
 export const SET_EPISODES_LIST = 'SET_EPISODES_LIST';
 export const SET_EPISODE_DETAIL = 'SET_EPISODE_DETAIL';
+export const SET_CAST_INFO = 'SET_CAST_INFO';

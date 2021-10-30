@@ -76,7 +76,7 @@
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
 
-import ErrorMessage from '../components/ErrorMessage.vue';
+import ErrorMessage from '../components/commons/ErrorMessage.vue';
 import GoogleIcon from '../components/icons/Google.vue';
 
 export default {

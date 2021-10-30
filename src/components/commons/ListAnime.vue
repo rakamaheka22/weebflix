@@ -58,7 +58,7 @@ import moment from 'moment';
 
 import {
   NO_CONNECTION
-} from '../constant';
+} from '../../constant';
 
 export default {
   name: 'ListAnime',
