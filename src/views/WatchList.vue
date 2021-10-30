@@ -3,15 +3,7 @@
     <div class=" mb-10 md:my-12 pb-6 w-full justify-center items-center overflow-hidden md:max-w-xs mx-auto">
       <div class="bg-darkgrey rounded-lg shadow-sm pb-10">
         <div class="relative h-40">
-          <nav class="absolute text-white font-bold z-20 m-5">
-            <router-link class="flex items-center gap-4" to="/">
-              <feather
-                type="arrow-left"
-                stroke="#FFFFFF"
-              ></feather>
-              Back
-            </router-link>
-          </nav>
+          <BackButton />
           <img class="absolute h-full w-full object-cover" src="/img/bg-pattern.jpg" alt="Background Pattern">
         </div>
         <div class="relative shadow mx-auto h-24 w-24 -my-12 border-white rounded-full overflow-hidden border-4">
@@ -58,12 +50,14 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-import ListAnime from '../components/ListAnime.vue';
+import ListAnime from '../components/commons/ListAnime.vue';
+import BackButton from '../components/commons/BackButton.vue';
 
 export default {
   name: 'WatchList',
   components: {
-    ListAnime
+    ListAnime,
+    BackButton
   },
   computed: {
     ...mapGetters({

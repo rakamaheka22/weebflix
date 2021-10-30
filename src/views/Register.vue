@@ -77,7 +77,7 @@
 <script>
 import { mapActions } from 'vuex';
 
-import ErrorMessage from '../components/ErrorMessage.vue';
+import ErrorMessage from '../components/commons/ErrorMessage.vue';
 
 export default {
   name: 'Register',

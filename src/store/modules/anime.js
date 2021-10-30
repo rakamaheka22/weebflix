@@ -1,16 +1,22 @@
 import axios from 'axios';
 import api from '../endpoints';
 
+const aniapi = axios.create({
+    baseURL: 'https://api.aniapi.com/v1'
+});
+
 import {
     SET_ANIME_INFO,
     SET_EPISODES_LIST,
-    SET_EPISODE_DETAIL
+    SET_EPISODE_DETAIL,
+    SET_CAST_INFO
 } from '../mutations';
 
 const state = () => ({
     anime_info: null,
     episodes_list: [],
-    episode: null
+    episode: null,
+    cast_info: []
 });
 
 const getters = {
@@ -22,6 +28,9 @@ const getters = {
     },
     getEpisode: state => {
         return state.episode;
+    },
+    getCastInfo: state => {
+        return state.cast_info;
     }
 };
 
@@ -35,6 +44,9 @@ const mutations = {
     [SET_EPISODE_DETAIL]: (state, payload) => {
         state.episode = payload;
     },
+    [SET_CAST_INFO]: (state, payload) => {
+        state.cast_info = payload;
+    }
 };
 
 const actions = {
@@ -50,6 +62,31 @@ const actions = {
             }
         } catch (error) {
             commit('SET_MESSAGE_ERROR', error.message, { root: true });
+        }
+    },
+    findCharaAnimeById: async ({ commit }, id) => {
+        try {
+            if (id) {
+                const { data } = await axios
+                .get(`${api.ANIME}/${id}/characters_staff`);
+
+                commit('SET_CAST_INFO', data.characters);
+            } else {
+                commit('SET_CAST_INFO', []);
+            }
+        } catch (error) {
+            commit('SET_MESSAGE_ERROR', error.message, { root: true });
+        }
+    },
+    fetchEpisodesByAnimeId: async ({ commit }, id) => {
+        try {
+            const { data } = await aniapi.get(`/anime?mal_id=${id}`);
+            const response = await aniapi.get(`/episode?anime_id=${data.data.documents[0].id}`);
+            commit('SET_EPISODES_LIST', response.data.data.documents);
+            return response.data.data.documents;
+        } catch (error) {
+            commit('SET_MESSAGE_ERROR', error.message, { root: true });
+            return false;
         }
     },
 };
