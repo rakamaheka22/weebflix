@@ -28,6 +28,7 @@ import store from './store';
 import './firebase';
 
 import App from './App.vue';
+import './registerServiceWorker';
 
 new Vue({
   router,
